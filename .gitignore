@@ -1,0 +1,14 @@
+*.ss~
+*.ss#*
+.#*.ss
+
+*.scm~
+*.scm#*
+.#*.scm
+*.log
+img/*
+*.zip
+logs
+logs/*
+/logs
+__pycache__/*
