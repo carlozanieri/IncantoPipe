@@ -35,7 +35,7 @@ class HelloWorld():
         
         
         elif cherrypy.url() == 'http://localhost/':
-           tmpl = env.get_template('mytemplate.html')
+           tmpl = env.get_template('uno/index4.html')
            if kwargs :
                pag = kwargs['pag']
                blogid = kwargs['blogid']
@@ -43,6 +43,15 @@ class HelloWorld():
                 pag="blog"
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
         
+        elif cherrypy.url() == 'http://localhost:7575/':
+           tmpl = env.get_template('uno/index4.html')
+           if kwargs :
+               pag = kwargs['pag']
+               blogid = kwargs['blogid']
+           else :
+                pag="blog"
+                page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
+
         elif cherrypy.url() == 'carlozanieri.it' :
            tmpl = env.get_template('mytemplate.html')
            if kwargs :
@@ -297,6 +306,12 @@ Mime-type: {}
        
         tmp=env.get_template('upload_form.html')
         return tmp.render( pagina=Connect.body("", "sanpiero"), manifestazione="news", news=Connect.news(""))
+
+    @cherrypy.expose
+    def ins_iscrizioni(self, id, username, useremail):
+       
+        tmp=env.get_template('uno/index4.html')
+        return tmp.render(pagina=Connect.ins_iscrizioni(self, username, useremail))
 
     @cherrypy.expose
     def ins_manifestazioni(request):

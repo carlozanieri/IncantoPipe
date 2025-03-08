@@ -1,0 +1,35 @@
+<html>
+  <body>
+      <script type="text/javascript">
+          //the first way to store the data
+          if(localStorage.pagecount){
+              localStorage.pagecount = Number(localStorage.pagecount) + 1;
+              }else{
+              localStorage.pagecount = 1;
+          }
+          document.write("Visits: " + localStorage.pagecount + " time(s).");
+
+          //the second way to store the data
+          //using sqlite
+          var db = openDatabase("./mytestdb", "1.0", "stu list", 1024*1024, function(){});
+          //use the command `openDatabase` can create a data base
+          //name, version, discription, db size
+          alert("<p>create db success</p>");
+          db.transaction(function(tx){
+                  tx.executeSql("CREATE TABLE IF NOT EXISTS test(id int UNIQUE, title TEXT, content TEXT)");
+                  document.write("<p>create table test successfully</p>");
+                  tx.executeSql("insert into test(id, title, content) values(1, '111', 'swq')");
+                  tx.executeSql("insert into test(id, title, content) values(2, 'bbb', 'sawf')");
+                  document.write("<p>insert two contents successfully</p>");
+                  tx.executeSql("SELECT * FROM test", [], function(tx, rs){
+                      var len = rs.rows.length;
+                      alert(len + "");
+                      for(var i = 0; i < rs.rows.length; i++){
+                          var testObj = rs.rows.item(i);
+                          alert(testObj.id + "-----" + testObj.title);
+                      }
+                  });
+          });
+      </script>
+  </body>
+</html>

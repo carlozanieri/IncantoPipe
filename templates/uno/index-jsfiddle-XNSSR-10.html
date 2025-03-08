@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML5 SQLite example</title>
+
+  <style>
+    table, td, tr {
+    border: 1px #a9a9a9 inset;
+}
+
+td {
+    padding: 3px 1px 3px 1px;
+}
+
+div#dbInfoSection {
+    height: 185px;
+    overflow: scroll;
+}
+
+div {
+    padding: 3px;
+}
+
+ul#log, ul#log > li {
+    padding: 2px 4px;
+    margin: 2px 0;
+}
+
+li {
+    color: #ffffff;
+    background: #000000;
+}
+
+li.log {
+    color: #33bb99;
+}
+
+li.err {
+    color: #bb0033;
+}
+
+li.warn {
+    color: #FF6600;
+}
+
+input.textError {
+    border-color: #FF3300;
+}
+  </style>
+
+  
+</head>
+<body<body>>
+  <html>
+    <head>
+    </head>
+    <body>
+        <!-- DB info and logging -->
+        <div id='dbInfoSection'>
+            <ul id='log'>
+                <li>
+                    <b>Database log</b>
+                </li>
+            </ul>
+        </div>
+        <input type="button" id="clearDB" value="Reset Cart" />
+        <input type="checkbox" id="doInsertData" /><span>Insert some example items?</span>
+        <hr />
+        
+        <table id="dbTable">
+            <th colspan=2><b>Your Shopping Cart</b></th>
+            <tr>
+                <td><b>Item</b></td><td><b>Count</b></td>
+            </tr>
+        </table>
+        
+        <div><b>Feel free to add some items.</b></div>
+        <div>Item Name:&nbsp;<input type="text" id="newItemName" /></div>
+        <div>Item Quantity:&nbsp;<input type="text" id="newItemCount"/></div>
+        <div><input type="button" id="addBtn" value="Add item"/></div>
+    </body>
+</html>
+
+  <script>
+    // This is a lightweight example of how to perform simple database
+// operations (DB and Table creation, basic CRUD operations, etc)
+// using clientside HTML5-driven SQLite. This is basically a
+// "shopping cart" or grocery list: the Hello World of databases.
+// It maintains a list of item names and quantities, storing them
+// in a single table and rendering the DB table to an HTML table
+// that the user can review.
+
+// Uses jQuery 1.7.1 framework; that's all!
+$(document).ready(function() {
+    
+    // You can create or open an instance of your Database using window.openDatabase.
+    // This function takes 4 parameters: the name of the database, the version string,
+    // a more user-readable descriptive name for the database, and the size of the DB.
+    // In this example, I am using a DB named "FIRST_JSFIDDLE_TEST_DB" and I am
+    // giving it 50 kilobytes in size.
+    var db = window.openDatabase("FIRST_JSFIDDLE_TEST_DB", "1.0", 
+                                 "First jsFiddle Test DB", 50 * Math.pow(2, 10));
+    
+    // A few functions for logging database transaction information to the 
+    // log at the top of the page. These are basic jQuery operations.
+    function appendMsgToDBLog(msg) {
+        $('#log li:last').after("<li class='log'>" + msg + "</li>\n");
+    }
+    
+    function appendWarningToDBLog(warning) {
+        $('#log li:last').after("<li class='warn'>" + warning + "</li>\n");
+    }
+    
+    function appendErrToDBLog(errMsg) {
+        $('#log li:last').after("<li class='err'>" + errMsg + "</li>\n");
+    }
+    
+    // Convenience methods for logging generic Database errors. More on
+    // how these work down below...
+    function standardSQLErrorHandler(tx, err) {
+        if (err && err.message) {
+            appendErrToDBLog("Error while manipulating database: " + err.message);
+        } else {
+            appendErrToDBLog("Encountered unexpected error while manipulating database.");
+        }
+    }
+    
+    function standardTxErrorHandler(err) {
+        if (err && err.message) {
+            appendErrToDBLog("Error while manipulating database: " + err.message);
+        } else {
+            appendErrToDBLog("Encountered unexpected error while manipulating database.");
+        }
+    }
+
+    // If the database has opened successfully, print a simple message to the log.
+    if (db) {
+        appendMsgToDBLog("<b>It's alive!</b>");
+    }
+
+    // Creates the DB table if it doesn't exist.
+    // This method, as with all transactions, are called with db.transaction, and take
+    // a single argument: tx, which is the database transaction object. 
+    function createTable(tx) {
+        // tx.executeSql performs an SQL action. This method takes up to 4 arguments:
+        // the SQL string to execute, a list of parameters to bind to the sql string,
+        // a callback function that is called if the transaction succeeds, and a 
+        // callback function that is called if the transaction fails.
+        // In this instance, we are excuting a Create Table statement, which will create
+        // the cart table, but only if it doesn't already exist. This statement has
+        // no variables (?-characters), so the variable list is empty. The callbacks
+        // simply perform log operations.
+        tx.executeSql("CREATE TABLE IF NOT EXISTS cart " + 
+                      " (item_name TEXT UNIQUE COLLATE NOCASE, item_count INTEGER)", [], 
+                      function() {
+                          appendMsgToDBLog("Created shopping cart.");
+                      }, 
+                     standardSQLErrorHandler);
+    }
+    
+    // Re-creates the table by dropping it and then creating it again.
+    // This 'cleans' any data in the cart.
+    function recreateTable (tx) {
+        appendWarningToDBLog("Dropping and re-creating cart table...");
+        
+        // When called, this transaction drops the table. When it succeeds, the success handler
+        // calls createTable to re-create the table.
+        tx.executeSql("DROP TABLE IF EXISTS cart", [], 
+                      function() {
+                          db.transaction(createTable, standardTxErrorHandler, 
+                                         function() {
+                                             appendMsgToDBLog("Successfully cleaned up cart.");
+                                         });
+                      }, 
+                      standardSQLErrorHandler);
+    }
+    
+    // Here is where we call db.transction. db.transaction takes 3 parameters:
+    // the transaction function to call, a callback function that will be called
+    // if the transaction fails, and a callback function that will be called when
+    // the transaction succeeds. Here, we are calling createTable, and when it
+    // succeeds it calls updateShoppingCart, which paints the table on the screen.
+    db.transaction(createTable, standardTxErrorHandler, updateShoppingCart);
+    
+    // Function for querying cart table.
+    // Returns a Promise that will asynchronously be resolved with the result from the database,
+    // or NULL if an error occurs.
+    // For more information on jquery's Deferred objects, see 
+    // http://api.jquery.com/category/deferred-object/
+    function getCartItems() {
+        var dfdCartItems = new $.Deferred(function(dfd) {
+            // A success callback for tx.executeSql.
+            // executeSql success callbacks take two arguments: the transaction object and
+            // an SqlResultSet object. This SqlResultSet object contains 0 or more rows: objects
+            // that represent each row returned by the query. An individual row's object
+            // is returned by calling result.rows.item[x], and the object has its column names
+            // as public members. This method iterates over all of the SqlResultSet's items
+            // and translates them into an array (named "items") that it uses to resolve the
+            // deferred object.
+            function tx_success(tx, result) {
+                var items = [];
+                var rows = result.rows;
+                if (rows.length) {
+                    for (var rowIndex = 0; rowIndex < result.rows.length; rowIndex++) {
+                        var dbItem = rows.item(rowIndex);
+                        items.push({itemName: dbItem.item_name, itemCount: dbItem.item_count});
+                    }
+                }
+                appendMsgToDBLog("Selected " + items.length + " items from the cart table.");
+                dfd.resolve(items);
+            }
+            // executeSql error callbacks have up to two methods: the transaction object and
+            // an SqlError object. The SqlError object has a few fields: most important is the
+            // "message" field, which is a string describing why the sql failed.
+            function tx_error(tx, err) {
+                standardSQLErrorHandler(tx, err);
+                dfd.resolve(null);
+            }
+            // this is a transactional function that simply selects everything from
+            // the cart table. It uses the tx_success and tx_error functions above
+            // as its callbacks.
+            function selectAllTx(tx) {
+                tx.executeSql("SELECT * FROM cart ORDER BY item_name", [], tx_success, tx_error);
+            }
+            db.transaction(selectAllTx, standardTxErrorHandler);
+        });
+        return dfdCartItems.promise();
+    }
+    
+    // Updates the UI's cart table.
+    function updateShoppingCart() {
+        var cartPromise = getCartItems();
+        $.when(cartPromise).done(function(items) {
+            // clear table
+            $('#dbTable tr.itemRow').remove();
+            
+            if (items) {
+                for (var itemIndex = 0; itemIndex < items.length; itemIndex++) {
+                    var item = items[itemIndex];
+                    $('#dbTable tr:last').after(
+                        "<tr class='itemRow'><td>" + item.itemName + "</td><td>" +
+                        item.itemCount + "</td></tr>\n");
+                }
+            }
+        });
+    }
+    
+    // This transactional function pushes some example data into the table, if requested
+    // by the user.
+    function populateCart(tx) {
+        // Crappy hack to insert multiple items with a single SQL statement,
+        // because SQLite doesn't support 'insert into table (...) values (...), [(...),]'
+        // notation.
+        tx.executeSql("INSERT OR REPLACE INTO cart " + 
+                      " SELECT 'Apple' as item_name, 5 as item_count " + 
+                      " UNION SELECT 'Lightbulb', 4 " + 
+                      " UNION SELECT 'Aluminium Foil', 1", [],
+                      function() {
+                          appendMsgToDBLog("Inserted some test data.");
+                      }, 
+                      standardSQLErrorHandler);
+    }
+    
+    
+    // the "Reset Cart" button. Tells the database to drop and re-create the cart table and, upon
+    // completion, refreshes the HTML table with data from the cart.
+    $('#clearDB').click(function() {
+        db.transaction(recreateTable, standardTxErrorHandler,
+                       function() {
+                           if ($('#doInsertData').is(':checked')) {
+                               db.transaction(populateCart, standardTxErrorHandler, 
+                                              updateShoppingCart);
+                           } else {
+                               updateShoppingCart();
+                           }
+                       });
+    });
+    
+    
+    // Functions for inserting and updating the database.
+    function addItem(itemName, itemCount) {
+        if (!itemCount || !itemName) {
+            return;
+        }
+        
+        // An add transaction. This function adds items to the user's cart: for items that don't
+        // exist, this is effectively an insert. If the item does exist, it adds the new quantity
+        // to the existing quantity. Note the ?s and the list of parameters that are being passed
+        // into the executeSql statement: this is variable binding. It effectively inserts the
+        // values into the SQL string in the order that they appear in the array. This
+        // mechanism safeguards against injection attacks.
+        function addTx(tx) {
+            tx.executeSql("INSERT OR REPLACE INTO cart (item_name, item_count) " +
+                          " VALUES (?, COALESCE( " + 
+                          " (SELECT item_count FROM cart WHERE item_name = ?), 0) + ?)",
+                          [itemName, itemName, itemCount],
+                          function() { 
+                              appendMsgToDBLog("Added " + itemName + "(" + itemCount + 
+                                                  ") to cart.");
+                          },
+                          standardSQLErrorHandler);
+        }
+        // This function is called to remove items from the cart where the quantity
+        // is less than 1.
+        function deleteEmptyItemsTx(tx) {
+            tx.executeSql("DELETE FROM cart WHERE item_count < 1", [],
+                          function(tx, results) {
+                              if (results.rowsAffected) {
+                                  appendMsgToDBLog("Removed " + results.rowsAffected + 
+                                                       " items with no quantity from cart table.");
+                              }
+                          }, standardSQLErrorHandler);
+        }
+        // Transaction that adds the user's items to the cart. Upon creation, it deletes any
+        // zero-quantity items from the cart by calling deleteEmptyItemsTx.
+        db.transaction(addTx, standardTxErrorHandler, 
+                       function() {
+                           db.transaction(deleteEmptyItemsTx, standardTxErrorHandler,
+                                          updateShoppingCart);
+                       });
+    }
+    
+    // This is the Add Item button's click handler.
+    $('#addBtn').click(function() {
+        var itemName = $('#newItemName').val();
+        var itemCount = $('#newItemCount').val();
+        if (itemName && (itemName = $.trim(itemName)) && 
+            $.isNumeric(itemCount) && (itemCount = Math.floor(itemCount))) {
+            addItem(itemName, itemCount);
+            $('#newItemCount').removeClass('textError');
+            $('#newItemName').removeClass('textError');
+        } else {
+            // Validation warnings
+            if (!$.isNumeric(itemCount)) {
+                $('#newItemCount').addClass('textError');
+            } else {
+                $('#newItemCount').removeClass('textError');
+            }
+            if (!itemName) {
+                $('#newItemName').addClass('textError');
+            } else {
+                $('#newItemName').removeClass('textError');
+            }
+        }
+    });
+});
+  </script>
+</body>
+</html>

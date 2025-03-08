@@ -387,6 +387,28 @@ class Connect:
         # close the Connection
         db.close()
     
+    def ins_iscrizioni(self, username, useremail):
+
+        db = sqlite3.connect("AddressBook")
+        mycursor = db.cursor()
+        data = str(datetime.now())
+        riga = "INSERT INTO Contacts (username, useremail) VALUES (?,?)"
+        valori = (username, useremail)
+        mycursor.execute(riga, valori)
+        args = (data, data)
+        #mycursor.execute(insertQuery)
+  
+        print("No of Record Inserted :", mycursor.rowcount)
+  
+        # we can use the id to refer to that row later.
+        print("Inserted Id :", mycursor.lastrowid)
+  
+        # To ensure the Data Insertion, commit database.
+        db.commit() 
+  
+        # close the Connection
+        db.close()
+
     def get_class(kls):
         parts = kls.split('.')
         function = ".".join(parts[:-1])

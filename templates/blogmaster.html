@@ -24,8 +24,9 @@
 <body>
   
     {% include 'menu5.html' %}
-  
-    <div id="w" Style="margin-left:17%; margin-right:17%;margin-top:-19%;">
+    
+    <div id="w" Style="margin-left:17%; margin-right:17%;margin-top:-9%;">
+      <iframe  scrolling="no" width="100%" height="500 px" src="/slide?luogo={{luogo}}" frameborder="0" style=" margin-top:-24%; margin-left:-10%;margin-right:-15%;"></iframe>
       <nav class="slidernav">
         <div id="navbtns" class="clearfix">
           <a href="#" class="previous">prev</a>
@@ -54,13 +55,13 @@
             <input id="pag" name="pag" type="hidden" value="blogs_one" />
             <input type="submit" value="Dettaglio" />
           </form>
-          <form action="add_cart" method="post" accept-charset="utf-8" enctype="multipart/form-data" target="_parent">
+          <form action="/upload_form" method="post" accept-charset="utf-8" enctype="multipart/form-data" target="_parent">
             <input id="titolo" name="titolo" type="hidden" value="{{productss.title}}" />
             <input id="id" name="blogid" type="hidden" value="{{productss.id}}" />
             
             <input type="submit" value="Add to Cart" />
           </form>
-
+         
           <!--<p class="readmore"><a href="http://localhost/?pag=blogs_one&amp;titolo={{productss.title}}&amp;blogid={{productss.id}}"  target="_parent">Read More</a></p> -->
         </div>
       {% endfor %}
