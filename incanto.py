@@ -52,7 +52,7 @@ class HelloWorld():
                 pag="blog"
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
 
-        elif cherrypy.url() == '91.134.132.25:7575/':
+        elif cherrypy.url() == 'http://carlozanieri.it:7575':
            tmpl = env.get_template('uno/index4.html')
            if kwargs :
                pag = kwargs['pag']
