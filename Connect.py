@@ -387,13 +387,14 @@ class Connect:
         # close the Connection
         db.close()
     
-    def ins_iscrizioni(self, username, useremail):
+    def ins_iscrizioni(self, username, useremail,bikesino, cellulare, noleggiare):
 
-        db = sqlite3.connect("AddressBook")
+        db = sqlite3.connect("bicisgrana")
         mycursor = db.cursor()
         data = str(datetime.now())
-        riga = "INSERT INTO Contacts (username, useremail) VALUES (?,?)"
-        valori = (username, useremail)
+        
+        riga = "INSERT INTO Contacts (username, useremail,cellulare,bikesino, noleggiare) VALUES (?,?,?,?,?)"
+        valori = (username, useremail, bikesino, cellulare, noleggiare)
         mycursor.execute(riga, valori)
         args = (data, data)
         #mycursor.execute(insertQuery)

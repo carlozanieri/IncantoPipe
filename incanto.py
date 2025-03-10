@@ -44,7 +44,7 @@ class HelloWorld():
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
         
         elif cherrypy.url() == 'http://localhost:7575/':
-           tmpl = env.get_template('uno/index4.html')
+           tmpl = env.get_template('iscrizioni.html')
            if kwargs :
                pag = kwargs['pag']
                blogid = kwargs['blogid']
@@ -53,7 +53,7 @@ class HelloWorld():
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
 
         elif cherrypy.url() == 'http://carlozanieri.it:7575/':
-           tmpl = env.get_template('uno/index4.html')
+           tmpl = env.get_template('iscrizioni.html')
            if kwargs :
                pag = kwargs['pag']
                blogid = kwargs['blogid']
@@ -62,7 +62,7 @@ class HelloWorld():
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
 
         elif cherrypy.url() == 'http://91.134.132.25:7575/':
-           tmpl = env.get_template('uno/index4.html')
+           tmpl = env.get_template('iscrizioni.html')
            if kwargs :
                pag = kwargs['pag']
                blogid = kwargs['blogid']
@@ -248,6 +248,11 @@ class HelloWorld():
                 
         tmp=env.get_template('blogs.html')
         return tmp.render( pagina=Connect.body("", "sanpiero"), manifestazione="blog", blogs=Connect.blog(""), urlx="by Carlo Zanieri", luogo = "blog")
+    @cherrypy.expose
+    def paga(self):
+                
+        tmp=env.get_template('paga.html')
+        return tmp.render( pagina=Connect.body("", "sanpiero"), manifestazione="blog", blogs=Connect.blog(""), urlx="by Carlo Zanieri", luogo = "blog")
     
     
     
@@ -327,10 +332,11 @@ Mime-type: {}
         return tmp.render( pagina=Connect.body("", "sanpiero"), manifestazione="news", news=Connect.news(""))
 
     @cherrypy.expose
-    def ins_iscrizioni(self, id, username, useremail):
-       
-        tmp=env.get_template('uno/index4.html')
-        return tmp.render(pagina=Connect.ins_iscrizioni(self, username, useremail))
+    def ins_iscrizioni(self, id, username, useremail,bikesino,cellulare):
+        if bikesino == 'nole' :
+            noleggiare='si'
+        tmp=env.get_template('paga.html')
+        return tmp.render(pagina=Connect.ins_iscrizioni(self, username, useremail,cellulare,bikesino,noleggiare))
 
     @cherrypy.expose
     def ins_manifestazioni(request):
