@@ -335,6 +335,8 @@ Mime-type: {}
     def ins_iscrizioni(self, id, username, useremail, indirizzo,comune,cap,provincia,bikesino,telefono):
         if bikesino == 'nole' :
             noleggiare='si'
+        else :
+            noleggiare='NO'
         tmp=env.get_template('paga.html')
         return tmp.render(pagina=Connect.ins_iscrizioni(self, username, useremail,indirizzo,comune,cap,provincia,telefono,bikesino,noleggiare))
 
