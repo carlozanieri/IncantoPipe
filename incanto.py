@@ -35,7 +35,7 @@ class HelloWorld():
         
         
         elif cherrypy.url() == 'http://localhost/':
-           tmpl = env.get_template('uno/index4.html')
+           tmpl = env.get_template('iscrizioni.html')
            if kwargs :
                pag = kwargs['pag']
                blogid = kwargs['blogid']
