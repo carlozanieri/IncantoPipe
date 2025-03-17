@@ -61,6 +61,28 @@ class HelloWorld():
                 pag="blog"
                 page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
 
+        elif cherrypy.url() == 'http://carlozanieri.it:7575/lista/':
+           tmpl = env.get_template('bicisgrana.html')
+           page = tmpl.render(pag=pag,bicisgrana=Connect.bicisgrana(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
+
+           if kwargs :
+               pag = kwargs['pag']
+               blogid = kwargs['blogid']
+           else :
+                pag="blog"
+                page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
+        elif cherrypy.url() == 'http://localhost:7575/lista/':
+           tmpl = env.get_template('bicisgrana.html')
+           page = tmpl.render(pag=pag,bicisgrana=Connect.bicisgrana(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
+
+           if kwargs :
+               pag = kwargs['pag']
+               blogid = kwargs['blogid']
+           else :
+                pag="blog"
+                page = tmpl.render(pag=pag,products=Connect.products(""), target=kwargs,  manifestazione="blog", menu=Connect.menu(""), submenu=Connect.submnu(""),pagina=Connect.body("", "mugello"),  luogo = "mugello", urlx=cherrypy.url())
+
+
         elif cherrypy.url() == 'http://91.134.132.25:7575/':
            tmpl = env.get_template('iscrizioni.html')
            if kwargs :
@@ -339,6 +361,12 @@ Mime-type: {}
             noleggiare='NO'
         tmp=env.get_template('paga.html')
         return tmp.render(pagina=Connect.ins_iscrizioni(self, username, useremail,indirizzo,comune,cap,provincia,telefono,bikesino,noleggiare))
+    
+    @cherrypy.expose
+    def lista(self):
+       
+        tmp=env.get_template('bicisgrana.html')
+        return tmp.render(bicisgrana=Connect.bicisgrana(""))
 
     @cherrypy.expose
     def ins_manifestazioni(request):

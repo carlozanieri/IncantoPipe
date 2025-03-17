@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+
+	<title>CarloZanieri.it {{urlx}}</title>
+  <meta name="author" content="Carlo Zanieri"/>
+  <link rel="shortcut icon" href="/static/favicon.ico"/>
+  <script src="/static/js/jquery.js"></script>
+  <script type="text/javascript" src="/static/blogs/js/responsiveCarousel.js"></script>  
+ 
+	<script src="/static/menu_6/js/modernizr.custom.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/menu_6/css/default.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="/static/blogs/css/styles.css"/>
+  
+ 
+<style>
+table,
+td,
+th
+{
+  font-size: 14;
+  font-weight:bold;
+	border:1px solid #3d0606;
+  
+	border-collapse:collapse;
+	padding : 3px 5px;
+}
+td
+{
+  font-size: 14;
+	text-align:right;
+  
+}
+th
+{
+	text-align:left;
+  background-color : #717172;
+  font-size: 16;
+  color:#1d0101;
+}
+tr.odd td,
+tr.odd th
+{
+	background-color:#D5E4FF;
+}
+caption
+{
+	font-weight:bold;
+	color:#060880
+}
+  .content { margin:50px auto; max-width:100%; line-height:1.7}
+  
+  </style>
+</head>
+
+<body>
+
+  <table style="margin-left:25%;">
+    <caption><h1>Elenco iscritti Bicisgrana 2025</h1></caption>
+    <tr>
+      <th>ID</th>
+      <th>Nome - cognome</th>
+      <th>Indirizzo</th>
+      <th>CAP - Comune</th>
+      <th>Provincia</th>
+      <th>Indirizzo Email</th>
+    </tr>
+    {% for bicisgranas in bicisgrana %}
+    <tr>
+      <td>{{bicisgranas.id}}</td>
+     <td>{{bicisgranas.username}}</td>
+     <td>{{bicisgranas.cap}}{{bicisgranas.comune}}</td>
+     <td>{{bicisgranas.indirizzo}}</td>
+     <td>{{bicisgranas.provincia}}</td>
+     <td>{{bicisgranas.useremail}}</td>
+    </tr>
+    {% endfor %}
+   
+  </table>
+  
+  
+      <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400" rel="stylesheet"/>
+      
+    </div><!-- @end .crsl-items -->
+  </div><!-- @end #w --> 
+    <script type="text/javascript">
+      $(function(){
+        $('.crsl-items').carousel({
+          visible: 5,
+          itemMaxWidth: 100,
+          itemEqualHeight: 100,
+          itemMargin: 9,
+        });
+      
+        $("a[href=#]").on('click', function(e) {
+          e.preventDefault();
+        });
+      });
+      </script>
+      <script type="text/javascript">
+        $("a[href=#]").on('click', function(e) {
+          e.preventDefault();
+        });
+      
+      </script>  
+  
+  
+	
+</body>
+ 
+</html>
