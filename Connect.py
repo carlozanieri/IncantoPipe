@@ -247,7 +247,7 @@ class Connect:
         data = conn.execute("SELECT *  from Contacts")
         ##cursor.execute("SELECT *  from slider")
         rows = data.fetchall()
-        bicisgrana = [dict(id=row[0], username=row[1], useremail=row[2], telefono=row[3], indirizzo=row[4], comune=row[5] ,cap=row[6], provincia=row[7]) for row in rows]
+        bicisgrana = [dict(id=row[0], username=row[1], useremail=row[2], telefono=row[3], indirizzo=row[4], comune=row[5] ,cap=row[6], provincia=row[7], bikesino=row[8], tipobici=row[9], noleggiare=row[10]) for row in rows]
         # menu = primanota[1]["descrizione"]
         return bicisgrana
 

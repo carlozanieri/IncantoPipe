@@ -67,16 +67,21 @@ caption
       <th>CAP - Comune</th>
       <th>Provincia</th>
       <th>Indirizzo Email</th>
+      <th>Bici Si/No</th>
+      <th>Tipo Bike</th>
+      <th>Noleggiare</th>
     </tr>
     {% for bicisgranas in bicisgrana %}
     <tr>
       <td>{{bicisgranas.id}}</td>
-     <td>{{bicisgranas.username}}</td>
-     <td>{{bicisgranas.indirizzo}}</td>
-     <td>{{bicisgranas.cap}} &nbsp; &nbsp;{{bicisgranas.comune}}</td>
-     
-     <td>{{bicisgranas.provincia}}</td>
-     <td>{{bicisgranas.useremail}}</td>
+      <td>{{bicisgranas.username}}</td>
+      <td>{{bicisgranas.indirizzo}}</td>
+      <td>{{bicisgranas.cap}} &nbsp; &nbsp;{{bicisgranas.comune}}</td>
+      <td>{{bicisgranas.provincia}}</td>
+      <td>{{bicisgranas.useremail}}</td>
+      <td>{{bicisgranas.bikesino}}</td>
+      <td>{{bicisgranas.tipobici}}</td>
+      <td>{{bicisgranas.noleggiare}}</td>
     </tr>
     {% endfor %}
    
