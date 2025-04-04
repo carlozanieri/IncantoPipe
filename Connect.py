@@ -261,7 +261,7 @@ class Connect:
 
         fields = ['nome', 'E-Mail', 'telefono', 'indirizzo', 'comune', 'CAP'] 
         lista = Connect.bicisgrana("")
-        with open('lista_partecipanti.csv', 'w', newline='') as file: 
+        with open('lista_partecipantis.csv', 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames=fields)
             writer.writeheader()
            
@@ -269,7 +269,7 @@ class Connect:
                 mydict =[{'nome': listas['username'], 'E-Mail': listas['useremail'], 'telefono': listas['telefono']}, 
                 {'indirizzo': listas['indirizzo'], 'comune': listas['comune'], 'CAP': listas['cap']}, ]
                 writer.writerows(mydict)
-                lista_partecipanti=Connect.download("")
+            lista=Connect.download("")
         return lista
     
     def download(self):
@@ -279,7 +279,7 @@ class Connect:
         url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
         response = requests.get(url, stream=True)
 
-        with open('lista_partecipanti.csv', 'wb') as out_file:
+        with open('lista_partecipants.csv', 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
 
             print('The file was saved successfully')
