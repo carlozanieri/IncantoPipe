@@ -86,9 +86,13 @@ caption
     {% endfor %}
    
   </table>
-  
-  
-      <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400" rel="stylesheet"/>
+  <!--  inizio form  -->
+  <form action="../creacsv" method="post" id="dati" name="dati" accept-charset="utf-8" enctype="multipart/form-data" style=" width: 38.5%; margin-left: 25%; margin-right: 25%; background-color: rgb(43, 139, 230);" > 
+    <input id="bicisgrana" name="bicisgrana" type="hidden" value={{bicisgrana}} /> 
+    <center><input type="submit" value="Crea File CSV" /> </center>
+  </form><br />      
+  <!--  fine form  -->
+  <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400" rel="stylesheet"/>
       
     </div><!-- @end .crsl-items -->
   </div><!-- @end #w --> 

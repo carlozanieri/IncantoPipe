@@ -2,6 +2,7 @@
 #import os
 #import time
 #import logging
+import csv 
 import os
 import time
 import logging
@@ -250,6 +251,38 @@ class Connect:
         bicisgrana = [dict(id=row[0], username=row[1], useremail=row[2], telefono=row[3], indirizzo=row[4], comune=row[5] ,cap=row[6], provincia=row[7], bikesino=row[8], tipobici=row[9], noleggiare=row[10]) for row in rows]
         # menu = primanota[1]["descrizione"]
         return bicisgrana
+
+    def creacsv(self):
+        import csv 
+
+      #  mydict =[{'name': 'Kelvin Gates', 'age': '19', 'country': 'USA'}, 
+      #   {'name': 'Blessing Iroko', 'age': '25', 'country': 'Nigeria'}, 
+      #   {'name': 'Idong Essien', 'age': '42', 'country': 'Ghana'}]
+
+        fields = ['nome', 'E-Mail', 'telefono', 'indirizzo', 'comune', 'CAP'] 
+        lista = Connect.bicisgrana("")
+        with open('lista_partecipanti.csv', 'w', newline='') as file: 
+            writer = csv.DictWriter(file, fieldnames=fields)
+            writer.writeheader()
+           
+            for listas in lista:
+                mydict =[{'nome': listas['username'], 'E-Mail': listas['useremail'], 'telefono': listas['telefono']}, 
+                {'indirizzo': listas['indirizzo'], 'comune': listas['comune'], 'CAP': listas['cap']}, ]
+                writer.writerows(mydict)
+                lista_partecipanti=Connect.download("")
+        return lista
+    
+    def download(self):
+        import shutil
+        import requests
+
+        url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
+        response = requests.get(url, stream=True)
+
+        with open('lista_partecipanti.csv', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+
+            print('The file was saved successfully')
 
     def blog(self):
         data =datetime.now()

@@ -367,6 +367,13 @@ Mime-type: {}
        
         tmp=env.get_template('bicisgrana.html')
         return tmp.render(bicisgrana=Connect.bicisgrana(""))
+    
+    @cherrypy.expose
+    def creacsv(self,bicisgrana=Connect.bicisgrana("")):
+        tmp=env.get_template('bicisgrana.html')
+        bicisgrana=Connect.creacsv("")
+        return tmp.render(bicisgrana=Connect.bicisgrana(""))
+    
 
     @cherrypy.expose
     def ins_manifestazioni(request):
