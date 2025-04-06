@@ -279,10 +279,17 @@ class Connect:
         url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
         response = requests.get(url, stream=True)
 
-        with open('/home/carlo/Scaricati/lista_partecipantis2.csv', 'wb') as out_file:
-            shutil.copyfileobj(response.raw, out_file)
+        global dump
+        location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
+    with open("lista_partecipantis2.csv", 'wb') as location:
+        shutil.copyfileobj(dump, location)
+    del dump
 
-            print('The file was saved successfully')
+
+       # with open('/home/carlo/Scaricati/lista_partecipantis2.csv', 'wb') as out_file:
+        #    shutil.copyfileobj(response.raw, out_file)
+
+           # print('The file was saved successfully')
 
     def blog(self):
         data =datetime.now()
