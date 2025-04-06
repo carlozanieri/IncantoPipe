@@ -285,7 +285,7 @@ class Connect:
         response = requests.get(url, stream=True)
         
         global dump
-        dump = response.raw
+        dump = response.csv
         location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
         with open("lista_partecipantis2.csv", 'wb') as location:
             shutil.copyfileobj(dump, location)
