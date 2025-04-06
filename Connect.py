@@ -283,9 +283,9 @@ class Connect:
         
         url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
         response = requests.get(url, stream=True)
-        
+        file = requests.get(url, stream=True)
         global dump
-        dump = response.csv
+        dump = file.raw
         location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
         with open("lista_partecipantis2.csv", 'wb') as location:
             shutil.copyfileobj(dump, location)
