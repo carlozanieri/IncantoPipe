@@ -278,16 +278,17 @@ class Connect:
         return lista
     
     def download(self):
-        import shutil
+        #import shutil
         import requests
-
+        
         url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
         response = requests.get(url, stream=True)
-
+        
         global dump
+        dump = response.raw
         location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
-    with open("lista_partecipantis2.csv", 'wb') as location:
-        shutil.copyfileobj(dump, location)
+        with open("lista_partecipantis2.csv", 'wb') as location:
+            shutil.copyfileobj(dump, location)
     del dump
 
 
