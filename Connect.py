@@ -289,7 +289,7 @@ class Connect:
         location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
         with open("lista_partecipantis2.csv", 'wb') as location:
             shutil.copyfileobj(dump, location)
-    del dump
+        del dump
 
 
        # with open('/home/carlo/Scaricati/lista_partecipantis2.csv', 'wb') as out_file:
