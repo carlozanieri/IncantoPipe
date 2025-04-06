@@ -261,7 +261,7 @@ class Connect:
 
         fields = ['nome', 'E-Mail', 'telefono', 'indirizzo', 'comune', 'CAP'] 
         lista = Connect.bicisgrana("")
-        with open('lista_partecipantis.csv', 'w', newline='') as file: 
+        with open('lista_partecipantis2.csv', 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames=fields)
             writer.writeheader()
            
@@ -279,7 +279,7 @@ class Connect:
         url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
         response = requests.get(url, stream=True)
 
-        with open('lista_partecipantis.csv', 'wb') as out_file:
+        with open('/home/carlo/Scaricati/lista_partecipantis2.csv', 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
 
             print('The file was saved successfully')
