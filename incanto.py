@@ -356,7 +356,7 @@ Mime-type: {}
     @cherrypy.expose
     def ins_iscrizioni(self, id, username, useremail, indirizzo,comune,cap,provincia,bikesino,telefono, tipobici):
         if bikesino == 'nole' :
-            noleggiare='si'
+            noleggiare='SI'
         else :
             noleggiare='NO'
         tmp=env.get_template('paga.html')
