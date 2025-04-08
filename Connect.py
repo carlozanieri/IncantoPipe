@@ -448,14 +448,14 @@ class Connect:
         # close the Connection
         db.close()
     
-    def ins_iscrizioni(self, username, useremail,indirizzo,comune,cap,provincia,bikesino, telefono, noleggiare):
+    def ins_iscrizioni(self, username, useremail,indirizzo,comune,cap,provincia,bikesino, telefono, noleggiare, tipobici):
 
         db = sqlite3.connect("bicisgrana")
         mycursor = db.cursor()
         data = str(datetime.now())
         
-        riga = "INSERT INTO Contacts (username, useremail,indirizzo,comune,cap,provincia,telefono,bikesino, noleggiare) VALUES (?,?,?,?,?,?,?,?,?)"
-        valori = (username, useremail,indirizzo,comune,cap,provincia, bikesino, telefono, noleggiare)
+        riga = "INSERT INTO Contacts (username, useremail,indirizzo,comune,cap,provincia,telefono,bikesino, noleggiare, tipobici) VALUES (?,?,?,?,?,?,?,?,?,?)"
+        valori = (username, useremail,indirizzo,comune,cap,provincia, bikesino, telefono, noleggiare, tipobici)
         mycursor.execute(riga, valori)
         args = (data, data)
         #mycursor.execute(insertQuery)
