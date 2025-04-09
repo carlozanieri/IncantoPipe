@@ -266,28 +266,45 @@ class Connect:
 
         fields = ['nome', 'E-Mail', 'telefono', 'indirizzo', 'comune', 'CAP'] 
         lista = Connect.bicisgrana("")
-        with open('lista_partecipantis2.csv', 'w', newline='') as file: 
+        with open('lista_partecipantis3.csv', 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames=fields)
             writer.writeheader()
            
             for listas in lista:
-                mydict =[{'nome': listas['username'], 'E-Mail': listas['useremail'], 'telefono': listas['telefono']}, 
-                {'indirizzo': listas['indirizzo'], 'comune': listas['comune'], 'CAP': listas['cap']}, ]
+                mydict = [{'nome': listas['username'], 'E-Mail': listas['useremail'], 'telefono': listas['telefono']}, {'indirizzo': listas['indirizzo'], 'comune': listas['comune'], 'CAP': listas['cap']}]
                 writer.writerows(mydict)
-            lista=Connect.download("")
+           # lista=Connect.download("")
+           # Import the necessary libraries
+        import openpyxl
+        import pandas as pd
+
+        # Create a new Excel workbook
+        workbook = openpyxl.Workbook()
+        # Select the default sheet (usually named 'Sheet')
+        sheet = workbook.active
+        # Add data to the Excel sheet
+        data = ['nome', 'E-Mail', 'telefono', 'indirizzo', 'comune', 'CAP']
+        sheet.append(data)
+        for listas in lista:
+            mydict = [listas['username'],  listas['useremail'], listas['telefono'], listas['indirizzo'], listas['comune'], listas['cap']]
+            sheet.append(mydict)
+            # Save the workbook to a file
+            workbook.save("my_excel_file.xlsx")
+            # Print a success message
+            print("Excel file created successfully!")
         return lista
     
     def download(self):
         #import shutil
         import requests
         
-        url = 'http://carlozanieri.it/home/carlo/IncantoPipe'
+        url = 'http://carlozanieri.it/home/carlo/Scaricati/lista_partecipantis3.csv'
         response = requests.get(url, stream=True)
         #file = requests.get(url, stream=True)
-        local_path = "/home/carlo/Scaricati/lista_partecipantis2.csv"
+        local_path = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis3.csv")
         #global dump
         #dump = file.raw
-        location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
+        #location = os.path.abspath("/home/carlo/Scaricati/lista_partecipantis2.csv")
         with open(local_path, 'wb') as f:
             f.write(response.content)
             #shutil.copyfileobj(dump, location)
